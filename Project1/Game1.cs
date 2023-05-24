@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
@@ -22,17 +23,25 @@ namespace Project1
         Texture2D meteorTexture;
         Texture2D impactTexture;
         Texture2D sunsetTexture;
+        Texture2D shockwaveLTexture;
+        Texture2D shockwaveRTexture;
+        Texture2D endScreen;
+        Rectangle endSizeRect;
+        Rectangle shockwaveLRect;
+        Rectangle shockwaveRRect;
         Rectangle meteorRect;
         Vector2 meteorSpeed;
+        Vector2 shockwaveSpeedL;
+        Vector2 shockwaveSpeedR;
         Vector2 meteorLocation;
-
         float startTime;
         float seconds;
         Song introSong;
+        SoundEffect explosion;
         SpriteFont titleFont;
         MouseState mouseState;
         Screen screen;
-        bool colision = false;
+        bool collision = false;
 
         public Game1()
         {
@@ -51,12 +60,20 @@ namespace Project1
             introSong = Content.Load<Song>("Nino Nardini - Morning Dew");
             titleFont = Content.Load<SpriteFont>("titleFont");
             meteorTexture = Content.Load<Texture2D>("Meteor");
-            meteorRect = new Rectangle(400, -400, 600, 400);
+            endScreen = Content.Load<Texture2D>("terminator");
+            shockwaveLTexture = Content.Load<Texture2D>("ShockwaveLeft");
+            shockwaveRTexture = Content.Load<Texture2D>("ShockwaveRight");
+            endSizeRect = new Rectangle(0, 0, 800, 500);
+            shockwaveLRect = new Rectangle(325, 385, 50, 100);
+            shockwaveRRect = new Rectangle(350,385,50,100);
+            meteorRect = new Rectangle(450, -400, 600, 400);
             meteorLocation = new Vector2(meteorRect.X, meteorRect.Y);
-
             meteorSpeed = new Vector2(-0.5f, 0.9f);
+            shockwaveSpeedL = new Vector2(-2, 0);
+            shockwaveSpeedR = new Vector2(2, 0);
             impactTexture = Content.Load<Texture2D>("MeteorImpact");
             sunsetTexture = Content.Load<Texture2D>("sunset");
+            explosion = Content.Load<SoundEffect>("explosion");
             MediaPlayer.Play(introSong);
             base.Initialize();
         }
@@ -101,7 +118,21 @@ namespace Project1
                 }
                 if (meteorRect.Bottom >= _graphics.PreferredBackBufferHeight)
                 {
-                    colision = true;
+                    if (!collision)
+                        explosion.Play();
+                    collision = true;
+                    
+                }
+                if (collision)
+                {
+                    shockwaveLRect.X += (int)shockwaveSpeedL.X;
+                    shockwaveLRect.Y += (int)shockwaveSpeedL.Y;
+                    shockwaveRRect.X += (int)shockwaveSpeedR.X;
+                    shockwaveRRect.Y += (int)shockwaveSpeedR.Y;
+                }
+                if (shockwaveRRect.Right >= _graphics.PreferredBackBufferWidth)
+                {
+                    screen = Screen.End;
                 }
             }
 
@@ -119,24 +150,29 @@ namespace Project1
             if (screen.Equals(Screen.Intro))
             {
                 _spriteBatch.Draw(introTexture, new Vector2(0, 0), Color.White);
-                _spriteBatch.DrawString(titleFont, "Time", new Vector2(275, 150), Color.DarkOrchid);
+                _spriteBatch.DrawString(titleFont, "Collision Course", new Vector2(60, 150), Color.DarkOrchid);
             }
             else if (screen.Equals(Screen.Animation))
             {
                 _spriteBatch.Draw(sunsetTexture, new Vector2(0, 0), Color.White);
                 _spriteBatch.Draw(cityTexture, new Vector2(0, 215), Color.White);
                 
-                _spriteBatch.Draw(meteorTexture, meteorRect, Color.White);
-                if (colision)
+               
+                if (collision)
                 {
-                    _spriteBatch.Draw(impactTexture, new Vector2(200, 420), Color.White);
-                    
+                    _spriteBatch.Draw(impactTexture, new Vector2(250, 420), Color.White);
+                    _spriteBatch.Draw(shockwaveLTexture,shockwaveLRect, Color.White);
+                    _spriteBatch.Draw(shockwaveRTexture,shockwaveRRect, Color.White);
+                }
+                else
+                {
+                    _spriteBatch.Draw(meteorTexture, meteorRect, Color.White);
                 }
                 
             }
             else if (screen.Equals(Screen.End))
             {
-
+                _spriteBatch.Draw(endScreen, endSizeRect, Color.White);
             }
             _spriteBatch.End();
 

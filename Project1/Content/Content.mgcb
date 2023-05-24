@@ -37,6 +37,12 @@
 /processorParam:TextureFormat=Color
 /build:DarkSky2.png
 
+#begin explosion.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:explosion.wav
+
 #begin Meteor.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -67,6 +73,30 @@
 /processorParam:Quality=Best
 /build:Nino Nardini - Morning Dew.mp3
 
+#begin ShockwaveLeft.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ShockwaveLeft.png
+
+#begin ShockwaveRight.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ShockwaveRight.png
+
 #begin sunset.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -78,6 +108,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:sunset.png
+
+#begin terminator.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:terminator.jpg
 
 #begin titleFont.spritefont
 /importer:FontDescriptionImporter
